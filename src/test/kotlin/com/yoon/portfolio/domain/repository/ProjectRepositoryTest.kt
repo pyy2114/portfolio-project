@@ -20,7 +20,7 @@ class ProjectRepositoryTest(
     @Autowired val projectRepository: ProjectRepository,
     @Autowired val skillRepository: SkillRepository
 ) {
-    val DATA_SIZE = 2
+    val DATA_SIZE = 10
 
     // 더미 데이터 객체 생성 메서드
     private fun createProject(n: Int): Project {

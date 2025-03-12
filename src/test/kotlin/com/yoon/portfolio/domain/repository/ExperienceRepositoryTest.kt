@@ -15,7 +15,7 @@ class ExperienceRepositoryTest (
     @Autowired val experienceRepository: ExperienceRepository
 ){
 
-    val DATA_SIZE = 2
+    val DATA_SIZE = 10
 
     //더미 객체 생성
     /**
@@ -99,6 +99,13 @@ class ExperienceRepositoryTest (
         }
         println("---- findAllByIsActive 테스트 종료 ----")
     }
+
+//    //조인 테스트 --> 강의 자료엔 없음(push 전에 주석 처리)
+//    @Test
+//    fun testJoinQuery(){
+//        val findById = experienceRepository.findById(1)
+//        println(findById.isPresent)
+//    }
 
 
 }
