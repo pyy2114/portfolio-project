@@ -1,7 +1,6 @@
 package com.yoon.portfolio.domain.entity
 
 import jakarta.persistence.*
-import jdk.internal.org.jline.utils.Colors.s
 
 @Entity
 class ProjectSkill(
