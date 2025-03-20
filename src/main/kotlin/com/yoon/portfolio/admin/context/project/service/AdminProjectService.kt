@@ -1,10 +1,12 @@
 package com.yoon.portfolio.admin.context.project.service
 
+import com.yoon.portfolio.admin.context.project.form.ProjectForm
 import com.yoon.portfolio.admin.data.TableDTO
 import com.yoon.portfolio.admin.exception.AdminBadRequestException
 import com.yoon.portfolio.domain.entity.Project
 import com.yoon.portfolio.domain.entity.ProjectDetail
 import com.yoon.portfolio.domain.repository.ProjectRepository
+import jakarta.transaction.Transactional
 import org.springframework.stereotype.Service
 
 @Service
@@ -27,5 +29,47 @@ class AdminProjectService(
 
         return TableDTO.from(classInfo, entities)
     }
-    
+
+    @Transactional
+    fun save(form: ProjectForm){
+
+        val projectDetails = form.details
+            ?.map{ detail -> detail.toEntity()}
+            ?.toMutableList()
+
+        val project = form.toEntity()
+        project.addDetails(projectDetails)
+
+        projectRepository.save(project)
+    }
+
+    @Transactional
+    fun update(id: Long, form: ProjectForm){
+        val project = projectRepository.findById(id)
+            .orElseThrow{ throw AdminBadRequestException("ID $[id}에 해당하는 데이터를 찾을 수 없습니다.")}
+
+        project.update(
+            name = form.name,
+            description = form.description,
+            startYear = form.startYear,
+            startMonth = form.startMonth,
+            endYear = form.endYear,
+            endMonth = form.endMonth,
+            isActive = form.isActive
+        )
+
+        val detailMap = project.details.associateBy { it.id }.toMap()
+        form.details?.forEach {
+            val entity = detailMap.get(it.id)
+            if(entity != null) {
+                entity.update(
+                    content = it.content,
+                    url = it.url,
+                    isActive = it.isActive
+                )
+            }else{
+                project.details.add(it.toEntity())
+            }
+        }
+    }
 }
