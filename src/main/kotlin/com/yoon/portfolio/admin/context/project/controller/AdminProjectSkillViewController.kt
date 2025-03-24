@@ -42,7 +42,7 @@ class AdminProjectSkillViewController(
             Pair("hasDetails", false)
         )
 
-        model.addAttribute(pageAttributes)
+        model.addAllAttributes(pageAttributes)
 
         return "admin/page-table"
     }

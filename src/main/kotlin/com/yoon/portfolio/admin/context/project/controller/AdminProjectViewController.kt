@@ -54,7 +54,7 @@ class AdminProjectViewController(
             Pair("hasDetails", true)
         )
 
-        model.addAttribute(pageAttributes)
+        model.addAllAttributes(pageAttributes)
 
         return "admin/page-table"
     }
